@@ -84,5 +84,5 @@ def myLinkHandler(self, url, _old):
         file, page = url.replace("open_external_filesüöäüöä", "").split("üöäüöä")
         open_external(file, page)
     else:
-        _old(self, url)
+        return _old(self, url)
 Reviewer._linkHandler = wrap(Reviewer._linkHandler, myLinkHandler, "around")
