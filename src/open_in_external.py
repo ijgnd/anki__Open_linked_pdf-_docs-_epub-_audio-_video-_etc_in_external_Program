@@ -23,34 +23,30 @@ import shlex
 import getpass
 
 from anki.hooks import addHook, wrap
+from anki.utils import (
+    isWin,
+    stripHTML
+)
 from aqt import mw
 from aqt.reviewer import Reviewer
 from aqt.browser import Browser
 from aqt.utils import tooltip
-from anki.utils import isWin
+
+from .consts import sep2, sep_merge
 
 
 def gc(arg, fail=False):
     return mw.addonManager.getConfig(__name__).get(arg, fail)
 
 
-# make settings importable into additional card fields add-on
-# I don't want to replicate its code here for future maintainability
-field_for_filename = ""
-field_for_page = ""
-def setFolders():
-    global field_for_filename
-    global field_for_page
-    field_for_filename = gc("field_for_filename", "")
-    field_for_page = gc("field_for_page", "")
-addHook('profileLoaded', setFolders)
-
-
 def open_external(file, page):
-    if file.startswith("file://") and isWin:  # on linux these files don't seem to pose a problem
-        file = file[8:]
+    if file.startswith("file://"):
+        if isWin:
+            file = file[8:]
+        else:
+            file = file[7:]
     ext = os.path.splitext(file)[1][1:].lower()
-    for v in gc("programs_for_extensions").values():
+    for v in gc("programs_for_extensions"):
         if "extensions" in v:    # "other_extensions" doesn't have this key
             if ext in v["extensions"]:
                 if not os.path.isabs(file):
@@ -62,6 +58,10 @@ def open_external(file, page):
                 if not os.path.exists(file):
                     s = "file '%s' doesn't exist. maybe adjust the config or field values" % file
                     tooltip(s)
+                    return
+                # temporary workaround for INTERNAL for pdf
+                if v["command"].lower() == "internal":
+                    tooltip('INTERNAL selected. Not implemented yet. Aborting ...')
                     return
                 if page and "command_open_on_page_arguments" in v:
                     a = (v["command_open_on_page_arguments"]
@@ -80,9 +80,31 @@ def open_external(file, page):
 
 
 def myLinkHandler(self, url, _old):
-    if url.startswith("open_external_filesüöäüöä"):
-        file, page = url.replace("open_external_filesüöäüöä", "").split("üöäüöä")
+    if url.startswith(sep_merge):
+        file, page = url.replace(sep_merge, "").split(sep2)
         open_external(file, page)
     else:
         return _old(self, url)
 Reviewer._linkHandler = wrap(Reviewer._linkHandler, myLinkHandler, "around")
+
+
+def myhelper(editor, menu):
+    filefld = [f["ord"] for f in editor.note.model()['flds'] if f['name'] == gc("field_for_filename")]
+    if not filefld:
+        return
+    file = stripHTML(editor.note.fields[filefld[0]])
+    pagefld = [f["ord"] for f in editor.note.model()['flds'] if f['name'] == gc("field_for_page")]
+    if pagefld:
+        page = stripHTML(editor.note.fields[pagefld[0]])
+    a = menu.addAction("open pdf")
+    a.triggered.connect(lambda _, f=file, p=page: open_external(f, p))
+
+
+def add_to_context(view, menu):
+    e = view.editor
+    field = e.currentField
+    if field:
+        e.saveNow(lambda ed=e, m=menu: myhelper(ed, m))
+    else:
+        myhelper(e, menu)
+addHook("EditorWebView.contextMenuEvent", add_to_context)

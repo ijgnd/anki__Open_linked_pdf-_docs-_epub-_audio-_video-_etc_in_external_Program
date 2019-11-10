@@ -1,6 +1,0 @@
-- This add-on was not tested on MacOS. It might not work on MacOS.
-- This add-on was only tested witht the extensions and programs of the default config in Windows and Linux. It should work with other configurations but there's a chance that it does not. In this case you could file a bug report on github. 
-- `field_for_filename` (default "external_source") and `field_for_page` (default "external_page") refer to the names of the names of fields in your note types where you put the filename and page.
-- When you enter a path in Windows with backslashes make sure to quote them: When the path is `C:\my path\subfolder` you need to put `C:\\my path\\subfolder` into the config. Also have a look at the examples.
-- quotes in filenames like `'` or `"` are not allowed. Then this add-on doesn't work.
-- you can add additional entries to `programs_for_extensions`. Make sure to have at least "extensions" and "command". If you ever use a relative path for files with these extensions you also need "default_folder_for_relative_paths".

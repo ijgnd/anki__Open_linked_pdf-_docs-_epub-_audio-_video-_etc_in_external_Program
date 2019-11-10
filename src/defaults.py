@@ -1,0 +1,148 @@
+tpl_pdf = {
+    "command": "",
+    "comment": "pdf",
+    "default_folder_for_relative_paths": "",
+    "extensions": ["pdf"],
+    "extensions_fixed": False,
+    "pinned": False,
+    "progs_lin": {"okular": {"full paths": ["/usr/bin/okular"], "pageparams": "-p PAGE PATH"},
+                  "evince": {"full paths": ["/usr/bin/evince"], "pageparams": "-p PAGE PATH"},
+                  },
+    "progs_win": {
+            "Adobe Acrobat": {"executable names": ['Acrobat.exe'],
+                              "pageparams": "/A \"page=PAGE=OpenActions\" PATH",
+                              },
+            "Adobe Acrobat Reader": {"executable names": ['AcroRd32.exe'],
+                                     "pageparams": "/A \"page=PAGE=OpenActions\" PATH",
+                                     },
+            "Sumatra PDF": {"executable names": ['SumatraPDF.exe'],
+                            "pageparams": "PATH -page PAGE",
+                            },
+            "Foxit Reader": {"executable names": ["FoxitReader.exe", ],
+                             "pageparams": "PATH /A page=PAGE",
+                             },
+            "PDF Annotator": {"executable names": ["PDFAnnotator.exe", ],
+                              "pageparams": "/page=PAGE PATH",
+                              },
+            "PDFXChangeViewer": {"executable names": ["PDFXCview.exe"],
+                                 "pageparams": "/A page=PAGE PATH",
+                                 },
+            "Okular": {"executable names": ["okular.exe"],
+                                 "pageparams": "-p PAGE PATH",
+                                 },
+            },
+}
+
+tpl_office = {
+    "command": "",
+    "comment": "documents_editable",
+    "default_folder_for_relative_paths": "",
+    "extensions": ["docx", "doc", "odt", "odtf"],
+    "extensions_fixed": False,
+    "pinned": False,
+    "progs_lin": {"LibreOffice": {"full paths": ["/usr/bin/soffice"],
+                                  "pageparams": ""},
+                  },
+    "progs_win": {"LibreOffice": {"executable names": ["swriter.exe", ],
+                                  "pageparams": "",
+                                  },
+                  "MS Word": {"executable names": ["WINWORD.EXE", ],
+                              "pageparams": "",
+                              },
+                  },
+    }
+
+tpl_vlc = {
+    "comment": "audio_video",
+    "command": "",
+    "command_open_on_page_arguments": "--start-time=PAGE PATH",
+    "default_folder_for_relative_paths": "",
+    "extensions": ["wav", "mp3", "ogg", "flac", "mp4", "swf", "mov", "mpeg",
+                   "mkv", "m4a", "3gp", "spx", "oga", "webm"],
+    "extensions_fixed": False,
+    "pinned": False,
+    "progs_lin": {"vlc": {"full paths": ["/usr/bin/vlc"],
+                          "pageparams": "--start-time=PAGE PATH"},
+                  },
+    "progs_win": {"vlc": {"executable names": ["vlc.exe", ],
+                          "pageparams": "--start-time=PAGE PATH"},
+                  },
+}
+
+
+# - Edge in Windows 10 can display epub. But in 2019-09 Edge will soon be rebased to Chromium so
+# that it no longer can display epubs. So it's no longer a relevant viewer
+# -okular can also display ebooks but they don't reflow.
+tpl_ebook = {
+    "comment": "ebooks",
+    "command": "",
+    "command_open_on_page_arguments": "--detach --open-at=PAGE PATH",
+    "default_folder_for_relative_paths": "",
+    "extensions": ["epub", "mobi"],
+    "extensions_fixed": False,
+    "pinned": False,
+    "progs_lin": {"Calibre ebook-viewer": {"full paths": ["/usr/bin/ebook-viewer"],
+                                           "pageparams": "--detach --open-at=PAGE PATH"},
+                  },
+    "progs_win": {"Calibre ebook-viewer": {"executable names": ["ebook-viewer.exe", ],
+                                           "pageparams": "--detach --open-at=PAGE PATH"},
+                  },
+}
+
+tpl_fp = {
+    "comment": "mindmap",
+    "command": "",
+    "default_folder_for_relative_paths": "",
+    "extensions": ["mm"],
+    "extensions_fixed": False,
+    "pinned": False,
+    "progs_lin": {"Freeplane": {"full paths": [""],
+                                "pageparams": ""},
+                  },
+    "progs_win": {"Freeplane": {"executable names": ["freeplane.exe", ],
+                                "pageparams": ""},
+                  },
+}
+
+tpl_py = {
+    "comment": "sourcecode_python",
+    "command": "",
+    "default_folder_for_relative_paths": "",
+    "extensions": ["py"],
+    "extensions_fixed": False,
+    "pinned": False,
+    "progs_lin": {"VSCode": {"full paths": [""], "pageparams": ""},
+                  },
+    "progs_win": {"VSCode": {"executable names": ["", ], "pageparams": ""},
+                  },
+}
+
+tpl_zim = {
+    "comment": "wiki",
+    "command": "",
+    "default_folder_for_relative_paths": "",
+    "extensions": ["txt"],
+    "extensions_fixed": False,
+    "pinned": False,
+    "progs_lin": {"ZIMwiki": {"full paths": ["/usr/bin/zim"],
+                              "pageparams": ""},
+                  },
+    "progs_win": {"ZIMwiki": {"executable names": ["zim.exe", ],
+                              "pageparams": ""},
+                  },
+}
+
+tpl_browser = {
+    "comment": "html",
+    "command": "",
+    "default_folder_for_relative_paths": "",
+    "extensions": ["html"],
+    "extensions_fixed": False,
+    "pinned": False,
+    "progs_lin": {"Firefox": {"full paths": [],
+                              "pageparams": ""},
+                  },
+    "progs_win": {"Firefox": {"executable names": [],
+                              "pageparams": ""},
+                  },
+} 

@@ -1,0 +1,27 @@
+This add-on does NOT work on MacOS! I don't have an Apple computer (and the preview app and skim apparently don't support a "--page" cli argument). For a pdf viewer that also works on MacOS see <a href="https://ankiweb.net/shared/info/319501851">this add-on named "pdf viewer"</a>.
+
+This add-on offers the same functions as <a href="https://ankiweb.net/shared/info/1994996371" rel="nofollow">the old version which is still available</a> but it should me much easier to set up. If you run into an error with this add-on you could try the old version.
+
+This add-on converts file names (and page numbers) from separate fields in your note to a clickable hyperlink that opens this file in an application you set. 
+
+This add-on allows you create a clickable hyperlink during reviews "my lecture notes.pdf - 123". When you click the hyperlink your pdf viewer will open the file "my lecture notes.pdf" on page 123. This add-on can only work on Windows/Linux. AnkiMobile and AnkiDroid don't support add-ons.
+
+I have used this add-on to open pdf files in Acrobat Reader, office documents in LibreOffice Writer, epub files in the calibre ebook-viewer, audio files in vlc at positions in the middle, text files in my wiki software ZIM, mindmaps in Freeplane, etc.
+
+Caveats: Use this at your own risk. Reports and fixes for this are very welcome. 
+
+<b>Setup</b>
+- Your note type must have two additional fields: "external_source" and "external_page". You can adjust these field names in the add-on configuration.
+- You must add a hyperlink to the template in the "Card Types for ... " window. This add-on adds a button for this at the bottom of this window named "Ext-Docs-Link".
+- You must setup your external programs. In the main window go to Tools->Add-ons, then select this add-on and click the button "config". 
+
+If this is too complicated or doesn't work and you just need a pdf viewer have a look at the add-on "pdf viewer" which doesn't need any config.
+
+<b>bugs, etc.</b>
+Feedback, improvements, and error reports are welcome. It's best to post these in <a href="https://github.com/ijgnd/anki__Open_linked_pdf-_docs-_epub-_audio-_video-_etc_in_external_Program" rel="nofollow">my github repo</a> where I can respond multiple times. 
+
+<b>other add-ons</b>
+For editing images and sound files from your cards have a look at <a href="https://ankiweb.net/shared/info/1560623518" rel="nofollow">OpenInExternalEditor,Rename,Duplicate for Image,Audio,Video</a>. 
+
+<b>compatibility</b>
+This add-on overwrites the method setupButtons from CardLayout.CardLayout so any other add-on that also modifies this method is not compatible. In 2019-09 I haven't found such an add-on.
