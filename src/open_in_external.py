@@ -47,7 +47,7 @@ def open_external(file, page):
             file = file[7:]
     ext = os.path.splitext(file)[1][1:].lower()
     for v in gc("programs_for_extensions"):
-        if "extensions" in v:    # "other_extensions" doesn't have this key
+        if v.get("extensions"):    # "other_extensions" doesn't have this key
             if ext in v["extensions"]:
                 if not os.path.isabs(file):
                     username = getpass.getuser()
@@ -93,6 +93,9 @@ def myhelper(editor, menu):
     if not filefld:
         return
     file = stripHTML(editor.note.fields[filefld[0]])
+    if not file:
+        # field is empty
+        return
     pagefld = [f["ord"] for f in editor.note.model()['flds'] if f['name'] == gc("field_for_page")]
     if pagefld:
         page = stripHTML(editor.note.fields[pagefld[0]])
