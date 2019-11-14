@@ -106,8 +106,14 @@ def myhelper(editor, menu):
 def add_to_context(view, menu):
     e = view.editor
     field = e.currentField
-    if field:
-        e.saveNow(lambda ed=e, m=menu: myhelper(ed, m))
+    # with glutanimate's spell checker e.saveNow doesn't work
+    try:
+        spellchecker = __import__("spell_checker").spellcheck
+    except:
+        if field:
+            e.saveNow(lambda ed=e, m=menu: myhelper(ed, m))
+        else:
+            myhelper(e, menu)
     else:
         myhelper(e, menu)
 addHook("EditorWebView.contextMenuEvent", add_to_context)
