@@ -83,9 +83,20 @@ def onExtDocsLink(self):
         obj = self.tform.back
     t = obj.toPlainText()
     lt = form.linktext.text()
-    t += (f"""<br><br><a href='javascript:pycmd("{sep_merge}{{{{text:{filefield}}}}}"""
-          f"""{sep2}{{{{text:{pagefield}}}}}");'>{lt}</a>"""
-          )
+    # t += (f"""<br><br><a href='javascript:pycmd("{sep_merge}{{{{text:{filefield}}}}}"""
+    #       f"""{sep2}{{{{text:{pagefield}}}}}");'>{lt}</a>"""
+    #       )
+    """
+    <br><br><a href='javascript:open_in_external_helper_function();'>View external file: {{text:external_source}}</a><script>function open_in_external_helper_function(){let mysource = String.raw`{{text:external_source}}`.replace(/\\/g, "\\\\");let mypage = "{{text:external_page}}";let mycmd = "open_external_files1994996371" + mysource +"1994996371" + mypage;pycmd(mycmd);}</script>
+    """
+    lt = lt.replace("{","{{").replace("}","}}")
+    t += (f"""<br><br><a href='javascript:open_in_external_helper_function();'>"""
+          f"""{lt}</a>"""
+          f"""<script>function open_in_external_helper_function(){{"""
+          f"""let mysource = String.raw`{{{{text:{filefield}}}}}`.replace(/\\\\/g, "\\\\\\\\");"""
+          f"""let mypage = "{{{{text:{pagefield}}}}}";"""
+          f"""let mycmd = "{sep_merge}" + mysource + "{sep2}" + mypage;"""
+          f"""pycmd(mycmd);}}</script>""")
     obj.setPlainText(t)
     self.saveCard()
 CardLayout.onExtDocsLink = onExtDocsLink
