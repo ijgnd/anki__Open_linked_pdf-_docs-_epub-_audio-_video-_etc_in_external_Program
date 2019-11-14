@@ -1,4 +1,4 @@
-This add-on does NOT work on MacOS! I don't have an Apple computer (and the preview app and skim apparently don't support a "--page" cli argument). For a pdf viewer that also works on MacOS see <a href="https://ankiweb.net/shared/info/319501851">this add-on named "pdf viewer"</a>.
+This add-on does NOT work on MacOS! I don't have an Apple computer (and the preview app and skim apparently don't support a "--page" cli argument). For a pdf viewer that also works on MacOS see <a href="https://ankiweb.net/shared/info/319501851" rel="nofollow">this add-on named "pdf viewer"</a>.
 
 This add-on offers the same functions as <a href="https://ankiweb.net/shared/info/1994996371" rel="nofollow">the old version which is still available</a> but it should me much easier to set up. If you run into an error with this add-on you could try the old version.
 
@@ -6,22 +6,40 @@ This add-on converts file names (and page numbers) from separate fields in your 
 
 This add-on allows you create a clickable hyperlink during reviews "my lecture notes.pdf - 123". When you click the hyperlink your pdf viewer will open the file "my lecture notes.pdf" on page 123. This add-on can only work on Windows/Linux. AnkiMobile and AnkiDroid don't support add-ons.
 
+This add-on also works in the editor which is part of the Add window, the EditCurrent window and the bottom of the browser. If the field where you put the filename or path of the linked pdf file is not empty you'll have a context menu entry "open external_source" (or however you named this field, see the config section below). So when editing notes you can also quickly open linked files.
+
 I have used this add-on to open pdf files in Acrobat Reader, office documents in LibreOffice Writer, epub files in the calibre ebook-viewer, audio files in vlc at positions in the middle, text files in my wiki software ZIM, mindmaps in Freeplane, etc.
 
 Caveats: Use this at your own risk. Reports and fixes for this are very welcome. 
 
+You can download the following two screencasts (gifs) by right-clicking them. Then select "save image as" from the context menu (tested in Chrome and Firefox). Then open these gifs with a program that supports pausing gif files. On Windows I use the popular image viewer IrfanView that can also display gifs. IrfanView has "Options-&gt;Start/Stop Animation" and you can adjust the speed with [SHIFT][CTRL][+] or [SHIFT][CTRL][-]. On Linux I use mpv. 
+
+<b>use</b>
+<img src="https://raw.githubusercontent.com/ijgnd/anki__Open_linked_pdf-_docs-_epub-_audio-_video-_etc_in_external_Program/master/screenshots/linked_pdf_short.gif"> 
+
 <b>Setup</b>
+initial setup:
+<img src="https://raw.githubusercontent.com/ijgnd/anki__Open_linked_pdf-_docs-_epub-_audio-_video-_etc_in_external_Program/master/screenshots/linked_pdf_windows.gif"> 
+
 - Your note type must have two additional fields: "external_source" and "external_page". You can adjust these field names in the add-on configuration.
 - You must add a hyperlink to the template in the "Card Types for ... " window. This add-on adds a button for this at the bottom of this window named "Ext-Docs-Link".
-- You must setup your external programs. In the main window go to Tools->Add-ons, then select this add-on and click the button "config". 
+- You must setup your external programs. In the main window go to Tools-&gt;Add-ons, then select this add-on and click the button "config". 
 
-If this is too complicated or doesn't work and you just need a pdf viewer have a look at the add-on "pdf viewer" which doesn't need any config.
+If this is too complicated or doesn't work and you just need a pdf viewer have a look at the add-on <a href="https://ankiweb.net/shared/info/319501851" rel="nofollow">pdf viewer</a> which doesn't need any config.
+
+<b>Use</b>
+I put the files I link to from my notes/cards into a the folder I set under "Default folder for relative paths" in the add-on settings (for each file type). Then it's enough to put in the file name. I can quickly fill out relative paths with an add-on like <a href="https://ankiweb.net/shared/info/1247884413" rel="nofollow">Field History</a>. This approach makes sure that my links always work (after adjusting just one setting) and I don't move and break files by accident.
+
+The backslash is only used as a folder separator. You may not use "\" in a filename. This limitation only affects linux since "\" may be in a filename in ext4, etc. but not in Windows.
 
 <b>bugs, etc.</b>
-Feedback, improvements, and error reports are welcome. It's best to post these in <a href="https://github.com/ijgnd/anki__Open_linked_pdf-_docs-_epub-_audio-_video-_etc_in_external_Program" rel="nofollow">my github repo</a> where I can respond multiple times. 
+Feedback, improvements, and error reports are welcome. It's best to post these in <a href="https://github.com/ijgnd/anki__Open_linked_pdf-_docs-_epub-_audio-_video-_etc_in_external_Program" rel="nofollow">my github repo</a> or send me a message via reddit (/u/ijgnord/) where I can respond multiple times. 
 
 <b>other add-ons</b>
+To incrementally process pdfs have a look at the add-on <a href="https://ankiweb.net/shared/info/1781298089" rel="nofollow">Searching, PDF reading &amp; note-taking in "Add" dialog</a>. 
+
 For editing images and sound files from your cards have a look at <a href="https://ankiweb.net/shared/info/1560623518" rel="nofollow">OpenInExternalEditor,Rename,Duplicate for Image,Audio,Video</a>. 
+
 
 <b>compatibility</b>
 This add-on overwrites the method setupButtons from CardLayout.CardLayout so any other add-on that also modifies this method is not compatible. In 2019-09 I haven't found such an add-on.
