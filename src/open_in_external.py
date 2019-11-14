@@ -63,7 +63,7 @@ def open_external(file, page):
                 if v["command"].lower() == "internal":
                     tooltip('INTERNAL selected. Not implemented yet. Aborting ...')
                     return
-                if page and "command_open_on_page_arguments" in v:
+                if page and v.get("command_open_on_page_arguments"):
                     a = (v["command_open_on_page_arguments"]
                            .replace("PATH", '"' + file + '"')
                            .replace("PAGE", page)
@@ -99,7 +99,7 @@ def myhelper(editor, menu):
     pagefld = [f["ord"] for f in editor.note.model()['flds'] if f['name'] == gc("field_for_page")]
     if pagefld:
         page = stripHTML(editor.note.fields[pagefld[0]])
-    a = menu.addAction("open pdf")
+    a = menu.addAction("open %s" % gc("field_for_filename"))
     a.triggered.connect(lambda _, f=file, p=page: open_external(f, p))
 
 
