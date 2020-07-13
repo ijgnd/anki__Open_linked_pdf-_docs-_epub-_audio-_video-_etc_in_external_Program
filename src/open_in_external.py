@@ -42,7 +42,7 @@ def open_external(file, page):
             file = file[8:]
         else:
             file = file[7:]
-    ext = os.path.splitext(file)[1][1:].lower()
+    ext = os.path.splitext(file)[1][1:].lower().rstrip()
     for v in gc("programs_for_extensions"):
         if v.get("extensions"):    # "other_extensions" doesn't have this key
             if ext in v["extensions"]:
