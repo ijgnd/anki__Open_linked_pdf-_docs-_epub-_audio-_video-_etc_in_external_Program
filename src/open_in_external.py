@@ -32,11 +32,8 @@ from aqt.reviewer import Reviewer
 from aqt.browser import Browser
 from aqt.utils import tooltip
 
+from .config import gc
 from .consts import sep2, sep_merge
-
-
-def gc(arg, fail=False):
-    return mw.addonManager.getConfig(__name__).get(arg, fail)
 
 
 def open_external(file, page):

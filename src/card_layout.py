@@ -6,12 +6,13 @@ from aqt.utils import showInfo
 from aqt.qt import *
 from aqt import mw
 
+from .config import gc, pointversion
 from .consts import sep2, sep_merge
-from .forms import addtofield
+if pointversion < 28:
+    from .forms import addtofield
+else:
+    from .forms import addtofield28 as addtofield
 
-
-def gc(arg, fail=False):
-    return mw.addonManager.getConfig(__name__).get(arg, fail)
 
 
 def mySetupButtons(self):
@@ -57,10 +58,13 @@ def onExtDocsLink(self):
     diag.show()
     if not diag.exec_():
         return
-    if form.radioQ.isChecked():
-        obj = self.tform.front
+    if pointversion < 28:
+        if form.radioQ.isChecked():
+            obj = self.tform.front
+        else:
+            obj = self.tform.back
     else:
-        obj = self.tform.back
+        obj = self.tform.edit_area
     t = obj.toPlainText()
     lt = form.linktext.text()
     # t += (f"""<br><br><a href='javascript:pycmd("{sep_merge}{{{{text:{filefield}}}}}"""
@@ -78,5 +82,6 @@ def onExtDocsLink(self):
           f"""let mycmd = "{sep_merge}" + mysource + "{sep2}" + mypage;"""
           f"""pycmd(mycmd);}}</script>""")
     obj.setPlainText(t)
-    self.saveCard()
+    if pointversion < 28:
+        self.saveCard()
 CardLayout.onExtDocsLink = onExtDocsLink
