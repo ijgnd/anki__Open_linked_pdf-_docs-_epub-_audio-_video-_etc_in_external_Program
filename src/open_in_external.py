@@ -63,12 +63,12 @@ def open_external(file, page):
                     return
                 if page and v.get("command_open_on_page_arguments"):
                     a = (v["command_open_on_page_arguments"]
-                           .replace("PATH", '"' + file + '"')
+                           .replace("PATH", f'"{file}"')
                            .replace("PAGE", page)
                            )
-                    cmd = '"' + v["command"] + '" ' + a
+                    cmd = f'"{v["command"]}" {a}'
                 else:
-                    cmd = '"' + v["command"] + '" ' + ' "' + file + '"'
+                    cmd = f'"{v["command"]}" "{file}"'
                 if isWin:
                     args = cmd
                 else:
