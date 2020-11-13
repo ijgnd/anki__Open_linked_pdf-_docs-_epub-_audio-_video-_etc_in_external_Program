@@ -198,7 +198,7 @@ class AddEditEntry(QDialog):
             "comment":  self.dialog.le_comment.text(),
             "default_folder_for_relative_paths": self.dialog.le_defaultfolder.text(),
             "extensions": self.dialog.le_extensions.text().split(),
-            "command": self.dialog.le_cmd.text(),
+            "command": self.dialog.le_cmd.text().strip(),
             "command_open_on_page_arguments": self.dialog.le_parameters.text(),
             "pinned": pinned,
             "extensions_fixed": ext_fixed,
