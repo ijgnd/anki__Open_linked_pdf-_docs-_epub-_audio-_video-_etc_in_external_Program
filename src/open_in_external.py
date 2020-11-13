@@ -69,7 +69,7 @@ def open_external(file, page):
                     cmd = '"' + v["command"] + '" ' + a
                 else:
                     cmd = '"' + v["command"] + '" ' + ' "' + file + '"'
-                if isWin == 'win32':
+                if isWin:
                     args = cmd
                 else:
                     args = shlex.split(cmd)
