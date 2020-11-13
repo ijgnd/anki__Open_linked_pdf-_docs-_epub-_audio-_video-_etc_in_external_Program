@@ -43,45 +43,70 @@ def open_external(file, page):
             file = file[8:]
         else:
             file = file[7:]
-    ext = os.path.splitext(file)[1][1:].lower().rstrip()
+    root, ext = os.path.splitext(file)
+    ext_wo_leading_dot_and_lower = ext[1:].lower()  # remove
     for v in gc("programs_for_extensions"):
         if v.get("extensions"):    # "other_extensions" doesn't have this key
-            if ext in v["extensions"]:
-                if not os.path.isabs(file):
-                    username = getpass.getuser()
-                    base = v["default_folder_for_relative_paths"].replace("MY_USER", username)
-                    if not base:
-                        tooltip("invalid settings for the add-on 'Open linked pdf, ...'. Aborting")
-                    file = os.path.join(base, file)
-                if not os.path.exists(file):
-                    s = "file '%s' doesn't exist. maybe adjust the config or field values" % file
-                    tooltip(s)
+            for used in v["extensions"]:
+                if ext_wo_leading_dot_and_lower.startswith(used):
+                    if not os.path.isabs(file):
+                        username = getpass.getuser()
+                        base = v["default_folder_for_relative_paths"].replace("MY_USER", username)
+                        if not base:
+                            tooltip("invalid settings for the add-on 'Open linked pdf, ...'. Aborting")
+                        # os.path.join(base, file) - this leads to a mix of "/" and "\" on Windows which fails
+                        file = base + "/" + file
+                        # file also might contain stuff after the extension like "#id-to-open" for html-files
+                        path_to_check = base + "/" + root + os.extsep + used
+                    else:
+                        path_to_check = root + os.extsep + used
+                    if not os.path.exists(path_to_check):
+                        s = "file '%s' doesn't exist. maybe adjust the config or field values" % file
+                        tooltip(s)
+                        return
+                    # temporary workaround for INTERNAL for pdf
+                    if v["command"].lower() == "internal":
+                        tooltip('INTERNAL selected. Not implemented yet. Aborting ...')
+                        return
+                    # workaround for browsers: chromium want file:// prefix, otherwise for html
+                    # #id-to-open is ignored and for #page=xy doesn't work for pdfs.
+                    # but on windows e.g. sumatra doesn't handle file:///
+                    # I can't just check for html because some users might want to use chrome
+                    # as their pdf viewer
+                    some_browsers_win = [
+                        "brave.exe",
+                        "chrome.exe",
+                        "firefox.exe",
+                        "iexplore.exe",
+                        "msedge.exe",
+                    ]
+                    if used == "html" or any([val in v["command"] for val in some_browsers_win]):             
+                        if isWin:
+                            file = "file:///" + file
+                        else:
+                            file = "file://" + file
+                    if page and v.get("command_open_on_page_arguments"):
+                        a = (v["command_open_on_page_arguments"]
+                            .replace("PATH", f'"{file}"')
+                            .replace("PAGE", page)
+                            )
+                        cmd = f'"{v["command"]}" {a}'
+                    else:
+                        cmd = f'"{v["command"]}" "{file}"'
+                    if isWin:
+                        args = cmd
+                    else:
+                        args = shlex.split(cmd)
+                    print(f"args are: {args}")
+                    if isLin:
+                        env = os.environ.copy()
+                        toremove = ['LD_LIBRARY_PATH', 'QT_PLUGIN_PATH', 'QML2_IMPORT_PATH']
+                        for e in toremove:
+                            env.pop(e, None)
+                        subprocess.Popen(args, env=env)
+                    else:
+                        subprocess.Popen(args)
                     return
-                # temporary workaround for INTERNAL for pdf
-                if v["command"].lower() == "internal":
-                    tooltip('INTERNAL selected. Not implemented yet. Aborting ...')
-                    return
-                if page and v.get("command_open_on_page_arguments"):
-                    a = (v["command_open_on_page_arguments"]
-                           .replace("PATH", f'"{file}"')
-                           .replace("PAGE", page)
-                           )
-                    cmd = f'"{v["command"]}" {a}'
-                else:
-                    cmd = f'"{v["command"]}" "{file}"'
-                if isWin:
-                    args = cmd
-                else:
-                    args = shlex.split(cmd)
-                if isLin:
-                    env = os.environ.copy()
-                    toremove = ['LD_LIBRARY_PATH', 'QT_PLUGIN_PATH', 'QML2_IMPORT_PATH']
-                    for e in toremove:
-                        env.pop(e, None)
-                    subprocess.Popen(args, env=env)
-                else:
-                    subprocess.Popen(args)
-                return
 
 
 def myLinkHandler(self, url, _old):
