@@ -37,6 +37,35 @@ from .config import gc
 from .consts import sep2, sep_merge
 
 
+some_browsers_win = [
+    "brave.exe",
+    "chrome.exe",
+    "firefox.exe",
+    "iexplore.exe",
+    "msedge.exe",
+]
+some_browsers_lin = [
+    "chromium",  # mint, debian
+    "chromium-browser",  # fedora
+    "firefox",
+    "google-chrome",
+]
+
+
+def maybe_prepend_file_again(used, file, v):
+    if any([
+        used == "html",
+        isWin and any([val in v["command"] for val in some_browsers_win]),
+        isLin and any([val == v["command"] for val in some_browsers_lin]),
+    ]):
+        if isWin:
+            return "file:///" + file
+        else:
+            return "file://" + file
+    else:
+        return file
+
+
 def open_external(file, page):
     if file.startswith("file://"):
         if isWin:
@@ -73,18 +102,7 @@ def open_external(file, page):
                     # but on windows e.g. sumatra doesn't handle file:///
                     # I can't just check for html because some users might want to use chrome
                     # as their pdf viewer
-                    some_browsers_win = [
-                        "brave.exe",
-                        "chrome.exe",
-                        "firefox.exe",
-                        "iexplore.exe",
-                        "msedge.exe",
-                    ]
-                    if used == "html" or any([val in v["command"] for val in some_browsers_win]):             
-                        if isWin:
-                            file = "file:///" + file
-                        else:
-                            file = "file://" + file
+                    file = maybe_prepend_file_again(used, file, v)
                     if page and v.get("command_open_on_page_arguments"):
                         a = (v["command_open_on_page_arguments"]
                             .replace("PATH", f'"{file}"')
