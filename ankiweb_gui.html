@@ -1,45 +1,71 @@
-This add-on does NOT work on MacOS! I don't have an Apple computer (and the preview app and skim apparently don't support a "--page" cli argument). For a pdf viewer that also works on MacOS see <a href="https://ankiweb.net/shared/info/319501851" rel="nofollow">this add-on named "pdf viewer"</a>.
+<b>This description only refers to the add-on version for Anki 2.1.35+</b>
 
-This add-on offers the same functions as <a href="https://ankiweb.net/shared/info/1994996371" rel="nofollow">the old version which is still available</a> but it should me much easier to set up. If you run into an error with this add-on you could try the old version.
+Apple/MacOS are only partially supported, see the section "Apple/Mac" below.
 
-This add-on converts file names (and page numbers) from separate fields in your note to a clickable hyperlink that opens this file in an application you set. 
-
-This add-on allows you create a clickable hyperlink during reviews "my lecture notes.pdf - 123". When you click the hyperlink your pdf viewer will open the file "my lecture notes.pdf" on page 123. This add-on can only work on Windows/Linux. AnkiMobile and AnkiDroid don't support add-ons.
+This add-on converts file names (and page numbers) from separate fields in your note to a clickable hyperlink that opens this file in an external application you set. This add-on allows you create a clickable hyperlink during reviews "my lecture notes.pdf - 123". When you click the hyperlink your pdf viewer will open the file "my lecture notes.pdf" on page 123. AnkiMobile and AnkiDroid don't support add-ons so this add-on is only useful on Windows, MacOS, and Linux.
 
 This add-on also works in the editor which is part of the Add window, the EditCurrent window and the bottom of the browser. If the field where you put the filename or path of the linked pdf file is not empty you'll have a context menu entry "open external_source" (or however you named this field, see the config section below). So when editing notes you can also quickly open linked files.
 
 I have used this add-on to open pdf files in Acrobat Reader, office documents in LibreOffice Writer, epub files in the calibre ebook-viewer, audio files in vlc at positions in the middle, text files in my wiki software ZIM, mindmaps in Freeplane, etc.
 
-Caveats: Use this at your own risk. Reports and fixes for this are very welcome. 
+Caveats: Use this at your own risk. 
 
-You can download the following two screencasts (gifs) by right-clicking them. Then select "save image as" from the context menu (tested in Chrome and Firefox). Then open these gifs with a program that supports pausing gif files. On Windows I use the popular image viewer IrfanView that can also display gifs. IrfanView has "Options-&gt;Start/Stop Animation" and you can adjust the speed with [SHIFT][CTRL][+] or [SHIFT][CTRL][-]. On Linux I use mpv. 
-
-<b>use</b>
+<b># use</b>
+You can download the following screencasts (gifs) by right-clicking them. Then select "save image as" from the context menu (tested in Chrome and Firefox). Then open these gifs with a program that supports to <b>pause</b> gif files. On Windows I use the popular image viewer IrfanView that can also display gifs. IrfanView has "Options-&gt;Start/Stop Animation" and you can adjust the speed with [SHIFT][CTRL][+] or [SHIFT][CTRL][-]. On Linux I use mpv. 
 <img src="https://raw.githubusercontent.com/ijgnd/anki__Open_linked_pdf-_docs-_epub-_audio-_video-_etc_in_external_Program/master/screenshots/linked_pdf_short.gif"> 
 
-<b>Setup</b>
-initial setup:
-<img src="https://raw.githubusercontent.com/ijgnd/anki__Open_linked_pdf-_docs-_epub-_audio-_video-_etc_in_external_Program/master/screenshots/linked_pdf_windows.gif"> 
+<b># Apple/MacOS</b>
+I don't have a Mac so I can't adjust and test this add-on for MacOS. In MacOS some things are different so this add-on doesn't fully work on MacOS.
+About displaying pdfs: The default app for displaying pdfs in MacOS is "Preview". But there is no command line parameter like "--page" when opening "Preview" to go to a specific page. So this add-on uses a workaround with AppleScript which is slow and due to the way it works you'll briefly see a flickering box before the targeted page is opened. To use Preview use these settings
+- Extensions: <code>pdf</code>
+- command/program: <code>preview</code>
+- command parameters to open on specific page: <code>PATH#page=PAGE</code>
+You can also use the pdf viewers from Google Chrome (use command/program: <code>/Applications/Google Chrome.app/Contents/MacOS/Google Chrome</code>) or Firefox (command/program: <code>/Applications/Firefox.app/Contents/MacOS/firefox</code>). Safari didn't work for me. 
 
-- Your note type must have two additional fields: "external_source" and "external_page". You can adjust these field names in the add-on configuration.
-- You must add a hyperlink to the template in the "Card Types for ... " window. This add-on adds a button for this at the bottom of this window named "Ext-Docs-Link".
-- You must setup your external programs. In the main window go to Tools-&gt;Add-ons, then select this add-on and click the button "config". 
+If you just want a simple pdf viewer have a look at the add-on  <a href="https://ankiweb.net/shared/info/319501851" rel="nofollow">pdf viewer</a>.
+
+<b># Setup</b>
+initial setup: For instructions about downloading and pausing or slowing down these screencasts see the preceeding paragraph before the first screencast.
+
+There are three steps to do:
+1. Add two additional fields to all note types. The default names for these fields are  "external_source" and "external_page" but you can adjust these field names in the add-on configuration. See Screencast 1 for details
+2. You must add a hyperlink to the template in the "Card Types for ... " window. This add-on adds a button for this at the bottom of this window named "Ext-Docs-Link". See Screencast 2 for details
+3. You must setup your external programs. In the main window go to Tools-&gt;Add-ons, then select this add-on and click the button "config". See Screencast 3 for details
+
+<b># Screencast 1 - Adding Fields</b>
+<img src="https://raw.githubusercontent.com/ijgnd/anki__Open_linked_pdf-_docs-_epub-_audio-_video-_etc_in_external_Program/master/screenshots/setup_step1.gif"> 
+
+<b># Screencast 2 - Adjusting the Card Templates</b>
+<img src="https://raw.githubusercontent.com/ijgnd/anki__Open_linked_pdf-_docs-_epub-_audio-_video-_etc_in_external_Program/master/screenshots/setup_step2.gif"> 
+
+<b># Screencast 3 - setup your external program</b>
+<img src="https://raw.githubusercontent.com/ijgnd/anki__Open_linked_pdf-_docs-_epub-_audio-_video-_etc_in_external_Program/master/screenshots/setup_step3.gif"> 
 
 If this is too complicated or doesn't work and you just need a pdf viewer have a look at the add-on <a href="https://ankiweb.net/shared/info/319501851" rel="nofollow">pdf viewer</a> which doesn't need any config.
 
-<b>Use</b>
+<b># Use</b>
 I put the files I link to from my notes/cards into a the folder I set under "Default folder for relative paths" in the add-on settings (for each file type). Then it's enough to put in the file name. I can quickly fill out relative paths with an add-on like <a href="https://ankiweb.net/shared/info/1247884413" rel="nofollow">Field History</a>. This approach makes sure that my links always work (after adjusting just one setting) and I don't move and break files by accident.
 
-The backslash is only used as a folder separator. You may not use "\" in a filename. This limitation only affects linux since "\" may be in a filename in ext4, etc. but not in Windows.
+The backslash is only used as a folder separator. You may not use "\" in a filename.
 
-<b>bugs, etc.</b>
-Feedback, improvements, and error reports are welcome. It's best to post these in <a href="https://github.com/ijgnd/anki__Open_linked_pdf-_docs-_epub-_audio-_video-_etc_in_external_Program" rel="nofollow">my github repo</a> or send me a message via reddit (/u/ijgnord/) where I can respond multiple times. 
+<b># bugs, etc.</b>
+Feedback, improvements, and error reports are welcome. It's best to post these in <a href="https://github.com/ijgnd/anki__Open_linked_pdf-_docs-_epub-_audio-_video-_etc_in_external_Program" rel="nofollow">my github repo</a> where I can respond multiple times. 
 
-<b>other add-ons</b>
-To incrementally process pdfs have a look at the add-on <a href="https://ankiweb.net/shared/info/1781298089" rel="nofollow">Searching, PDF reading &amp; note-taking in "Add" dialog</a>. 
+<b># alternatives</b>
+<b>To incrementally process pdfs have a look at the add-on <a href="https://ankiweb.net/shared/info/1781298089" rel="nofollow">Searching, PDF reading &amp; note-taking in "Add" dialog</a></b>. 
+
+If you just want a simple pdf viewer have a look at the add-on  <a href="https://ankiweb.net/shared/info/319501851" rel="nofollow">pdf viewer</a>.
 
 For editing images and sound files from your cards have a look at <a href="https://ankiweb.net/shared/info/1560623518" rel="nofollow">OpenInExternalEditor,Rename,Duplicate for Image,Audio,Video</a>. 
 
+<b># versions</b>
+- 2020-11-24 some compatbility with Apple/Mac (see section MacOS above), some code cleanup 
+- 2020-11-13 fix issue 4 and 6: also works if filed_for-fielname is not ending with the file extension (e.g. test.html#someid now works), browsers like chrome can be used as a pdf viewer
+- 2020-07-20 fix opening system apps on linux when using the binary from ankiweb. I remove some environment variables that anki set which directed to the anki binary path (e.g. LD_LIBRARY_PATH).
+- 2020-07-14 update for 2.1.28, ignore whitespace behind filename
+- 2019-11-14
+- 2019-11-11
+- 2019-10-21
+- 2019-09-16 initial release
 
-<b>compatibility</b>
-This add-on overwrites the method setupButtons from CardLayout.CardLayout so any other add-on that also modifies this method is not compatible. In 2019-09 I haven't found such an add-on.
+
