@@ -209,6 +209,7 @@ class AddEditEntry(QDialog):
 class AddEditEntryPdf(AddEditEntry):
     def __init__(self, parent=None, thisconf=None):
         AddEditEntry.__init__(self, parent, thisconf)
+        self.dialog.wi_pdf.setVisible(False)  # hide until implemented
         if "command" in self.thisconf:
             if self.thisconf["command"] == "INTERNAL":
                 self.dialog.cb_pdf_usepdfjs.setChecked(True)
@@ -242,6 +243,7 @@ class AddEditEntryPdf(AddEditEntry):
 class AddEditEntryRest(AddEditEntry):
     def __init__(self, parent=None, thisconf=None):
         AddEditEntry.__init__(self, parent, thisconf)
+        self.dialog.wi_pdf.setVisible(False)  # hide until implemented
 
 
 def gui_dialog(inst, thisconf=None):
