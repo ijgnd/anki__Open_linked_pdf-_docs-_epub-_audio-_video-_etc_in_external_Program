@@ -38,6 +38,12 @@ some_browsers_lin = [
 some_browsers_mac = [
     "/Applications/Firefox.app/Contents/MacOS/firefox",
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    # do not use Safari. in 2020-11 in 10.12
+    #   subprocess.Popen(['/Applications/Safari.app/Contents/MacOS/Safari', 'file:///Users/ij/Documents/test.pdf#page=2'])
+    # opens the following page in Safari: 
+    #   file:///Users/ij/Library/Application%20Support/Anki2/my_profile_name/collection.media/file:/Users/ij/Documents/test.pdf%23page=2
+    # whereas it works with firefox and chrome
+    # "/Applications/Safari.app/Contents/MacOS/Safari"
 ]
 
 
