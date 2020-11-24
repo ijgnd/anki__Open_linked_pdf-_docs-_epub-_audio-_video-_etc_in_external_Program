@@ -26,6 +26,7 @@ from anki.hooks import addHook, wrap
 from anki.utils import (
     isLin,
     isWin,
+    noBundledLibs,
     stripHTML
 )
 from aqt import mw
@@ -115,14 +116,7 @@ def open_external(file, page):
                         args = cmd
                     else:
                         args = shlex.split(cmd)
-                    print(f"args are: {args}")
-                    if isLin:
-                        env = os.environ.copy()
-                        toremove = ['LD_LIBRARY_PATH', 'QT_PLUGIN_PATH', 'QML2_IMPORT_PATH']
-                        for e in toremove:
-                            env.pop(e, None)
-                        subprocess.Popen(args, env=env)
-                    else:
+                    with noBundledLibs():
                         subprocess.Popen(args)
                     return
 
