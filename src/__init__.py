@@ -2,6 +2,9 @@
 Add-on for Anki 2.1: Open linked pdf, docs, epub, audio, video, etc in external Program
 
 Copyright: (c) 2019- ijgnd
+               2020 Y. H. Lai (yhlai-code) osascript-helper function, 
+                       see https://github.com/ijgnd/anki21__OpenInExternalEditor_Rename_Duplicate_for_Image_Audio_Video/pull/2
+
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
