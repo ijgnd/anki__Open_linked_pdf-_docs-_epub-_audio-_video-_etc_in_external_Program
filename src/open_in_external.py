@@ -60,30 +60,12 @@ def maybe_prepend_file_again(used, file, v):
 def osascript_to_args(script: str):
     commands = [("-e", l.strip()) for l in script.split('\n') if l.strip() != '']
     args = list(itertools.chain(*commands))
-    print('____osascript_to_args:')
-    print(args)
     return ["osascript"] + args
 
 
-def temp_pdf_mac_helper(file, root, ext, page, used, v):  # v is settings/conf for filetype
-    if not os.path.isabs(file):
-        username = getpass.getuser()
-        base = v["default_folder_for_relative_paths"].replace("MY_USER", username)
-        if not base:
-            tooltip("invalid settings for the add-on 'Open linked pdf, ...'. Aborting")
-        file = base + "/" + file
-        path_to_check = base + "/" + root + os.extsep + used
-    else:
-        path_to_check = root + os.extsep + used
-    if not os.path.exists(path_to_check):
-        s = "file '%s' doesn't exist. maybe adjust the config or field values" % file
-        tooltip(s)
-        return
-    fmod_for_osa = file[1:].replace("/", ":")  # no leading
-    with noBundledLibs():
-        # https://discussions.apple.com/thread/3215851
-        # https://apple.stackexchange.com/questions/233945/opening-a-specific-page-on-mac-preview-from-terminal
-        script = """
+# https://discussions.apple.com/thread/3215851
+# https://apple.stackexchange.com/questions/233945/opening-a-specific-page-on-mac-preview-from-terminal
+applescript_for_ApplePreview = """
 set theFile to "%s"
 set thePageNumber to %s
 
@@ -94,14 +76,12 @@ end tell
 tell application "Preview" to activate
 
 tell application "System Events"
-	keystroke "g" using {option down, command down} -- ⌥⌘G
+	keystroke "g" using {option down, command down}
 	keystroke thePageNumber
 	delay 0.5
 	keystroke return
 end tell
-
-        """ % (fmod_for_osa, page)
-        subprocess.Popen(osascript_to_args(script))
+"""
 
 
 def open_external(file, page):
@@ -116,12 +96,6 @@ def open_external(file, page):
         if v.get("extensions"):    # "other_extensions" doesn't have this key
             for used in v["extensions"]:
                 if ext_wo_leading_dot_and_lower.startswith(used):
-                    if (isMac and 
-                        ext_wo_leading_dot_and_lower.startswith("pdf") and 
-                        not any([val == v["command"] for val in some_browsers_mac])
-                       ):
-                            temp_pdf_mac_helper(file, root, ext, page, used, v)
-                            return
                     if not os.path.isabs(file):
                         username = getpass.getuser()
                         base = v["default_folder_for_relative_paths"].replace("MY_USER", username)
@@ -137,6 +111,15 @@ def open_external(file, page):
                         s = "file '%s' doesn't exist. maybe adjust the config or field values" % file
                         tooltip(s)
                         return
+                    # temporary workaround for MacOS Preview
+                    if (isMac and 
+                        ext_wo_leading_dot_and_lower.startswith("pdf") and 
+                        not any([val == v["command"] for val in some_browsers_mac])
+                       ):
+                            fmod_for_applescript = file[1:].replace("/", ":")  # no leading
+                            script = applescript_for_ApplePreview % (fmod_for_applescript, page)
+                            subprocess.Popen(osascript_to_args(script))
+                            return
                     # temporary workaround for INTERNAL for pdf
                     if v["command"].lower() == "internal":
                         tooltip('INTERNAL selected. Not implemented yet. Aborting ...')
