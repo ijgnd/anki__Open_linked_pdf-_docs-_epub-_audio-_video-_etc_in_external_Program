@@ -149,6 +149,7 @@ def open_external(file, page):
                     else:
                         args = shlex.split(cmd)
                     with noBundledLibs():
+                        print(args)
                         subprocess.Popen(args)
                     return
 
