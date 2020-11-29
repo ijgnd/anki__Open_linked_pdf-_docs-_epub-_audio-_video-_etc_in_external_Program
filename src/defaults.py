@@ -85,7 +85,7 @@ tpl_ebook = {
                                            "pageparams": "--detach --open-at=PAGE PATH"},
                   },
     "progs_win": {"Calibre ebook-viewer": {"executable names": ["ebook-viewer.exe", ],
-                                           "pageparams": "--detach --open-at=PAGE PATH"},
+                                           "pageparams": "--open-at=PAGE PATH"},
                   },
 }
 
