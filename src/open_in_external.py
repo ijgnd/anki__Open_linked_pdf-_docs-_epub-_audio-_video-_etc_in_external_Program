@@ -151,6 +151,9 @@ def open_external(file, page):
                     toremove = ['LD_LIBRARY_PATH', 'QT_PLUGIN_PATH', 'QML2_IMPORT_PATH']
                     for e in toremove:
                         env.pop(e, None)
+                    print(f"____Open linked pdf addon:___")
+                    print(args)
+                    print(f"_____________________________")    
                     subprocess.Popen(args, env=env)
                     return
 
