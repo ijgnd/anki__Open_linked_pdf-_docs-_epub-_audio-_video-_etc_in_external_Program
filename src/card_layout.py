@@ -54,8 +54,13 @@ def onExtDocsLink(self):
     form = addtofield.Ui_Dialog()
     form.setupUi(diag)
     form.le_linktext.setText("View external file: {{text:%s}}" % filefield)
-    form.le_fieldname.setText(filefield)
-    form.le_page.setText(pagefield)
+
+    fields = [f["name"] for f in self.model["flds"]]
+    form.cb_fieldname.addItems(fields)
+    form.cb_fieldname.setCurrentText(filefield)
+    form.cb_page.addItems(fields)
+    form.cb_page.setCurrentText(pagefield)
+
     form.font.setCurrentFont(QFont("Arial"))
     form.size.setValue(20)
     diag.show()
@@ -70,8 +75,8 @@ def onExtDocsLink(self):
         obj = self.tform.edit_area
     t = obj.toPlainText()
     linktext = form.le_linktext.text()
-    file_fi_used = form.le_fieldname.text()
-    page_fi_used = form.le_page.text()
+    file_fi_used = form.cb_fieldname.currentText()
+    page_fi_used = form.cb_page.currentText()
     functionname = f"open_in_external_helper_function__{uuid.uuid4().hex[:8]}"
     # t += (f"""<br><br><a href='javascript:pycmd("{sep_merge}{{{{text:{filefield}}}}}"""
     #       f"""{sep2}{{{{text:{pagefield}}}}}");'>{lt}</a>"""
