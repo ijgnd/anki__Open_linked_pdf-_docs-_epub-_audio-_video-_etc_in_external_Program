@@ -1,4 +1,5 @@
 from pprint import pprint as pp
+import uuid
 
 from anki.hooks import wrap
 from aqt.clayout import CardLayout
@@ -52,7 +53,9 @@ def onExtDocsLink(self):
     diag = QDialog(self)
     form = addtofield.Ui_Dialog()
     form.setupUi(diag)
-    form.linktext.setText("View external file: {{text:%s}}" % filefield)
+    form.le_linktext.setText("View external file: {{text:%s}}" % filefield)
+    form.le_fieldname.setText(filefield)
+    form.le_page.setText(pagefield)
     form.font.setCurrentFont(QFont("Arial"))
     form.size.setValue(20)
     diag.show()
@@ -66,7 +69,10 @@ def onExtDocsLink(self):
     else:
         obj = self.tform.edit_area
     t = obj.toPlainText()
-    lt = form.linktext.text()
+    linktext = form.le_linktext.text()
+    file_fi_used = form.le_fieldname.text()
+    page_fi_used = form.le_page.text()
+    functionname = f"open_in_external_helper_function__{uuid.uuid4().hex[:8]}"
     # t += (f"""<br><br><a href='javascript:pycmd("{sep_merge}{{{{text:{filefield}}}}}"""
     #       f"""{sep2}{{{{text:{pagefield}}}}}");'>{lt}</a>"""
     #       )
@@ -77,11 +83,11 @@ def onExtDocsLink(self):
 
     t += f"""
 <br><br>
-<a href='javascript:open_in_external_helper_function();'>{lt}</a>
+<a href='javascript:{functionname}();'>{linktext}</a>
 <script>
-    function open_in_external_helper_function(){{
-        let mysource = String.raw`{{{{text:{filefield}}}}}`.replace(/\\\\/g, "\\\\\\\\");
-        let mypage = "{{{{text:{pagefield}}}}}";
+    function {functionname}(){{
+        let mysource = String.raw`{{{{text:{file_fi_used}}}}}`.replace(/\\\\/g, "\\\\\\\\");
+        let mypage = "{{{{text:{page_fi_used}}}}}";
         let mycmd = "{sep_merge}" + mysource + "{sep2}" + mypage;
         pycmd(mycmd);
     }}
