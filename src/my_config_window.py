@@ -38,7 +38,10 @@ class AddEditEntry(QDialog):
         self.adjustSize()
         self.fill_fields()
         self.dialog.pb_load_from_defaults.clicked.connect(self.load_from_defaults)
-        self.dialog.pb_defaultpath_select.clicked.connect(self.pickdefaultpath)
+        self.dialog.pb_path_add.clicked.connect(self.add_default_path)
+        self.dialog.pb_path_up.clicked.connect(self.path_up)
+        self.dialog.pb_path_down.clicked.connect(self.path_down)
+        self.dialog.pb_path_del.clicked.connect(self.del_default_path)
         self.dialog.pb_cmd_pickpath.clicked.connect(self.pickcmdpath)
         self.dialog.pb_cmd_guess.clicked.connect(self.cmdguess)
         self.dialog.pb_parameters_guess.clicked.connect(self.parameters_guess)
@@ -74,7 +77,10 @@ class AddEditEntry(QDialog):
                 self.dialog.le_comment.setText(self.thisconf["comment"])
             if "default_folder_for_relative_paths" in self.thisconf:
                 path = self.thisconf["default_folder_for_relative_paths"]
-                self.dialog.le_defaultfolder.setText(path)
+                if isinstance(path, str):
+                    self.dialog.lw_paths.addItem(path)
+                else:
+                    self.dialog.lw_paths.addItems(path)
             if "extensions" in self.thisconf:
                 p = self.thisconf["extensions"]
                 if not (len(p) == 1 and p[0] == "pdf"):
@@ -111,11 +117,37 @@ class AddEditEntry(QDialog):
                     self.thisconf = e.thisconfig
                     self.fill_fields()
 
-    def pickdefaultpath(self):
+    def add_default_path(self):
         dir = QFileDialog.getExistingDirectory(None, 'Anki Add-on Select a folder:',
                                                os.path.expanduser("~"), QFileDialog.ShowDirsOnly)
         if dir:
-            self.dialog.le_defaultfolder.setText(dir)
+            self.dialog.lw_paths.addItems([dir])
+
+    def del_default_path(self):
+        listwidget = self.dialog.lw_paths
+        sel = listwidget.selectedItems()
+        if not sel:
+            return
+        for item in sel:
+            listwidget.takeItem(listwidget.row(item))
+
+    def path_up(self):
+        self.move_active(-1)
+    
+    def path_down(self):
+        self.move_active(1)
+
+    def move_active(self, direction):
+        listwidget = self.dialog.lw_paths
+        currentRow = listwidget.currentRow()
+        currentItem = listwidget.takeItem(currentRow)
+        newpos = currentRow + direction
+        if newpos < 0:
+            newpos = 0
+        if newpos > listwidget.count():
+            newpos = listwidget.count()
+        listwidget.insertItem(newpos, currentItem)
+        listwidget.setCurrentRow(newpos)
 
     def pickcmdpath(self):
         # mod of aqt.utils getFile
@@ -196,7 +228,7 @@ class AddEditEntry(QDialog):
                 return
         self.newsetting = {
             "comment":  self.dialog.le_comment.text(),
-            "default_folder_for_relative_paths": self.dialog.le_defaultfolder.text(),
+            "default_folder_for_relative_paths": [str(self.dialog.lw_paths.item(i).text()) for i in range(self.dialog.lw_paths.count())],
             "extensions": self.dialog.le_extensions.text().split(),
             "command": self.dialog.le_cmd.text().strip(),
             "command_open_on_page_arguments": self.dialog.le_parameters.text(),

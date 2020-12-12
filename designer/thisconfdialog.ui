@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1090</width>
-    <height>381</height>
+    <height>421</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -52,19 +52,45 @@
           <item>
            <widget class="QLabel" name="ql_defaultfolder">
             <property name="text">
-             <string>Default folder for relative paths:</string>
+             <string>Default folders for relative paths
+(folders are searched in this order):</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="le_defaultfolder"/>
+           <widget class="QListWidget" name="lw_paths"/>
           </item>
           <item>
-           <widget class="QPushButton" name="pb_defaultpath_select">
-            <property name="text">
-             <string>Pick Path</string>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="QPushButton" name="pb_path_add">
+              <property name="text">
+               <string>Add Path</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pb_path_up">
+              <property name="text">
+               <string>Move up</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pb_path_down">
+              <property name="text">
+               <string>Move down</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pb_path_del">
+              <property name="text">
+               <string>Remove Selected Path</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>

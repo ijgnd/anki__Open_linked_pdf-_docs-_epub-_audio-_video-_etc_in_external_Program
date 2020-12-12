@@ -104,21 +104,38 @@ def open_external(file, page):
         if v.get("extensions"):    # "other_extensions" doesn't have this key
             for used in v["extensions"]:
                 if ext_wo_leading_dot_and_lower.startswith(used):
-                    if not os.path.isabs(file):
-                        username = getpass.getuser()
-                        base = v["default_folder_for_relative_paths"].replace("MY_USER", username)
-                        if not base:
-                            tooltip("invalid settings for the add-on 'Open linked pdf, ...'. Aborting")
-                        # os.path.join(base, file) - this leads to a mix of "/" and "\" on Windows which fails
-                        file = base + "/" + file
-                        # file also might contain stuff after the extension like "#id-to-open" for html-files
-                        path_to_check = base + "/" + root + os.extsep + used
-                    else:
+                    if os.path.isabs(file):
                         path_to_check = root + os.extsep + used
-                    if not os.path.exists(path_to_check):
-                        s = "file '%s' doesn't exist. maybe adjust the config or field values" % file
-                        tooltip(s)
-                        return
+                        if not os.path.exists(path_to_check):
+                            s = "file '%s' doesn't exist. maybe adjust the config or field values" % file
+                            tooltip(s)
+                            return
+                    else:
+                        username = getpass.getuser()
+                        rel_folders =  v["default_folder_for_relative_paths"]
+                        if isinstance(rel_folders, str):
+                            rel_folders = [rel_folders, ]
+                        print(rel_folders)
+                        for rp in rel_folders:
+                            print(f"rp is: {rp}")
+                            base = rp.replace("MY_USER", username)
+                            if not base:
+                                continue
+                            # file also might contain stuff after the extension like "#id-to-open" for html-files
+                            path_to_check = base + "/" + root + os.extsep + used
+                            if os.path.exists(path_to_check):
+                                # os.path.join(base, file) - this leads to a mix of "/" and "\" on Windows which fails
+                                file = base + "/" + file
+                                break
+                        else:
+                            # file dosn't exist in any of the default paths:
+                            s = (f"file '{file}' is not in any of the the folders for relative "
+                                  "paths you've set for the extension "
+                                 f"{ext_wo_leading_dot_and_lower}. Maybe adjust the config or "
+                                  "field value."
+                                )
+                            tooltip(s)
+                            return
                     # temporary workaround for MacOS Preview
                     if (isMac and 
                         ext_wo_leading_dot_and_lower.startswith("pdf") and 
