@@ -97,7 +97,10 @@ def open_external(file, page):
             file = file[7:]
     root, ext = os.path.splitext(file)
     ext_wo_leading_dot_and_lower = ext[1:].lower()  # remove
-    for v in gc("programs_for_extensions"):
+    this_config = gc("programs_for_extensions")
+    if not this_config:
+        tooltip("no external program configured. Aborting ...")
+    for v in this_config:
         if v.get("extensions"):    # "other_extensions" doesn't have this key
             for used in v["extensions"]:
                 if ext_wo_leading_dot_and_lower.startswith(used):
