@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Add Field</string>
+   <string>Add Link to External File From Fields Used in Note Type</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
