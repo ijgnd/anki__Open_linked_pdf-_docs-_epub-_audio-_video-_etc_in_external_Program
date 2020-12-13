@@ -7,5 +7,6 @@
     "inline_separator": "",
     "inline_prefix": "",
     "make inline prefiexed clickable": false,
-    "programs_for_extensions": []
+    "programs_for_extensions": [],
+    "shortcut_insert_filename": ""
 }

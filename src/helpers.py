@@ -81,7 +81,7 @@ def check_filename_page_if_exists(file, root, ext, rel_folders):
             return None, failmsg
 
 
-def get_all_relative():
+def get_all_relative(relative_only=False):
     this_config = gc("programs_for_extensions")
     if not this_config:
         return []
@@ -100,7 +100,11 @@ def get_all_relative():
     for fp in all_relative_paths:
         for root, _, files in os.walk(fp):
             for name in files:
-                all_relative_files.append(os.path.join(root, name))
+                if relative_only:
+                    to_app = name
+                else:
+                    to_app = os.path.join(root, name)
+                all_relative_files.append(to_app)
 
     return all_relative_paths, all_relative_files
 

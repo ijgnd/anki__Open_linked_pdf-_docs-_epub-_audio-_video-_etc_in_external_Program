@@ -1,3 +1,5 @@
+import os
+
 from aqt import mw
 
 def gc(arg, fail=False):
@@ -13,5 +15,6 @@ from anki import version as anki_version
 _, _, point = anki_version.split(".")
 pointversion = int(point)
 
+addon_path = os.path.dirname(__file__)
 
 pycmd_string = "open_external_addon"
