@@ -315,6 +315,7 @@ class MyConfigWindow(QDialog):
         self.mcw.ql_sep.setVisible(False)
         self.mcw.le_prefix.setText(self.gc("inline_prefix", ""))
         self.mcw.le_sep.setText(self.gc("inline_separator", ""))
+        self.mcw.cb_extended.setText("enable experimental feature (check the ankiweb description for details)")
         self.mcw.cb_extended.stateChanged.connect(self.on_extended_changed)
         if self.gc("inline_prefix"):
             self.mcw.cb_extended.setChecked(True)
