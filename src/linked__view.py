@@ -79,7 +79,7 @@ def on_profile_loaded():
         return
     alreadyloaded = True
     """user config only available when profile is loaded"""
-    if not gc("inline_separator"):
+    if not gc("inline_prefix"):
         return
     if gc('context menu entries in reviewer', True):
         gui_hooks.webview_will_show_context_menu.append(ReviewerContextMenu)
