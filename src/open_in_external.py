@@ -54,7 +54,7 @@ def maybe_prepend_file_again(used, file, v):
     if any([
         used == "html",
         isWin and any([val in v["command"] for val in some_browsers_win]),
-        isLin and any([val == v["command"] for val in some_browsers_lin]),
+        isLin and any([val in v["command"] for val in some_browsers_lin]),
         isMac and any([val == v["command"] for val in some_browsers_mac]),
     ]):
         if isWin:
