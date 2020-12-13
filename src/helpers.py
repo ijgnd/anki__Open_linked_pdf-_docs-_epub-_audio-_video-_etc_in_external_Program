@@ -21,7 +21,8 @@ def check_string_for_existing_file(selectedtext):
     all_relative_paths, all_relative_files = get_all_relative()
     outfile, _ = check_filename_page_if_exists(file=file, 
                                    root=root,
-                                   ext=ext_wo_leading_dot_and_lower,
+                                   ext_detected_wo_leading_dot=ext_wo_leading_dot_and_lower,
+                                   ext_used=ext_wo_leading_dot_and_lower,
                                    rel_folders=all_relative_paths
                                   )
     if not outfile:
@@ -47,10 +48,10 @@ def guess_extension(sel_file, all_relative_files):
         return out
 
 
-def check_filename_page_if_exists(file, root, ext, rel_folders):
+def check_filename_page_if_exists(file, root, ext_detected_wo_leading_dot, ext_used, rel_folders):
     if os.path.isabs(file):
         # file also might contain stuff after the extension like "#id-to-open" for html-files
-        path_to_check = root + os.extsep + ext
+        path_to_check = root + os.extsep + ext_used
         if os.path.exists(path_to_check):
             return file, ""
         else:
@@ -67,15 +68,22 @@ def check_filename_page_if_exists(file, root, ext, rel_folders):
             # file also might contain stuff after the extension like "#id-to-open" for html-files
             # loop so that I can do case-insensitive matching
             for fn in all_relative_for_this_folder(base):
-                if root + os.extsep + ext == fn or (root + os.extsep + ext).lower() == fn.lower():
+                if root + os.extsep + ext_used == fn or (root + os.extsep + ext_used).lower() == fn.lower():
                     # os.path.join(base, file) - this leads to a mix of "/" and "\" on Windows which fails
-                    file = base + "/" + fn
+                    
+                    # sometimes behind the actual extension there's more, e.g. html#location1789
+                    # I need to attach this to the actual filename
+                    if ext_detected_wo_leading_dot != ext_used:
+                        to_attach = ext_detected_wo_leading_dot.lstrip(ext_used)
+                    else:
+                        to_attach = ""
+                    file = base + "/" + fn + to_attach
                     return file, ""
         else:
             # file dosn't exist in any of the default paths:
             failmsg = (f"file '{file}' is not in any of the the folders for relative "
                         "paths you've set for the extension "
-                       f"{ext}. Maybe adjust the config or "
+                       f"{ext_used}. Maybe adjust the config or "
                         "field value."
                 )
             return None, failmsg

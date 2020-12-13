@@ -118,7 +118,8 @@ def open_external(file, page):
                     else:
                         file, failmsg = check_filename_page_if_exists(file=file, 
                                                             root=root,
-                                                            ext=used,
+                                                            ext_detected_wo_leading_dot=ext[1:],
+                                                            ext_used=used,
                                                             rel_folders=v["default_folder_for_relative_paths"])
                     if not file:
                         tooltip(failmsg)
