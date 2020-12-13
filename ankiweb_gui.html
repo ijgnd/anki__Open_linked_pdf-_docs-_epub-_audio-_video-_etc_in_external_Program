@@ -1,4 +1,4 @@
-<b>This description only refers to the add-on version for Anki 2.1.35+</b>
+<b>This description only refers to the add-on version for Anki 2.1.30+</b>
 
 Apple/MacOS are only partially supported, see the section "Apple/Mac" below.
 
@@ -21,7 +21,7 @@ About displaying pdfs: The default app for displaying pdfs in MacOS is "Preview"
 - command/program: <code>preview</code>
 - command parameters to open on specific page: <code>PATH#page=PAGE</code>
 You can also use the pdf viewers from Google Chrome (use command/program: <code>/Applications/Google Chrome.app/Contents/MacOS/Google Chrome</code>) or Firefox (command/program: <code>/Applications/Firefox.app/Contents/MacOS/firefox</code>). Safari didn't work for me. 
-
+Newer MacOS versions restrict which apps can read or modify which files (check System Preferences -> Security & Privacy -> Privacy). This security feature might interfer with my add-on and you might have to make some adjustments there.
 If you just want a simple pdf viewer have a look at the add-on  <a href="https://ankiweb.net/shared/info/319501851" rel="nofollow">pdf viewer</a>.
 
 <b># Setup</b>
@@ -48,17 +48,35 @@ I put the files I link to from my notes/cards into a the folder I set under "Def
 
 The backslash is only used as a folder separator. You may not use "\" in a filename.
 
-<b># bugs, etc.</b>
+<b># experimental feature: links from within any field</b>
+Read this section carefully and fully before you use this feature.
+In the add-on config you can check "enable experimental feature (check the ankiweb description for details)". After restarting the following should work. Let's say you have a file named <code>France.pdf</code> in a folder that you have set under <code>Default folders for relative paths</code> for a program/extension. Then you write <code>____france___7</code> anywhere into a field in a note.
+Then during reviews this gets transformed into a clickable hyperlink that will open the file France.pdf on page 7. In the editor you can double-click it to open it in a pdf viewer.
+There are many limitations: 
+- This is hardly tested and only for filenames (for files that are in a folder set in <code>Default folders for relative paths</code>).
+- Filenames may not contain spaces (whitespace)!!!!
+- All occurrences of "____" are transformed. If you have "____" in other places in your notes you'll get weird links that lead to errors when you click them.
+- If you run into problems and report them to me I don't know if and when I'll address them.
+- This add-on does not work on mobile (Ankimobile, Ankidroid, Ankiweb). Add-ons don't work on mobile.
+- A newer version of Anki will break this add-on at some point. Who knows if I still have time or if I'm still interested in this add-on at that time. So you might end up with unusable strings though I guess that with manual work and some regular expressions you should be able to transform them into something useful?
+
+<b># bugs, problems etc.</b>
+When you click a link and nothing happens: Maybe it's a bug in my add-on or maybe there's a problem in your config - my config is not the easiest to use so maybe it's the latter and you can fix it for yourself.
+To find out run Anki from the command line. On MacOS the anki binary you can run from the command line is usually <code>/Applications/Anki.app/Contents/MacOS/Anki</code> (in 2020-11). Run this command from the app Terminal. In Windows it's <code>C:\Program Files\Anki\anki-console.exe</code> (though it's different for the alternate versions) which you need to run from "Command Prompt".
+Then Anki will print diagnostic messages in the terminal window. Whenever you click a link my add-on inserted into a card you should see the command my add-on tries to execute.
+Try to run this command from the Terminal/Command Prompt: If it doesn't work outside of Anki the problem is not my add-on but the config. If it works let me know. 
+
 Feedback, improvements, and error reports are welcome. It's best to post these in <a href="https://github.com/ijgnd/anki__Open_linked_pdf-_docs-_epub-_audio-_video-_etc_in_external_Program" rel="nofollow">my github repo</a> where I can respond multiple times. 
 
 <b># alternatives</b>
-<b>To incrementally process pdfs have a look at the add-on <a href="https://ankiweb.net/shared/info/1781298089" rel="nofollow">Searching, PDF reading &amp; note-taking in "Add" dialog</a></b>. 
-
+To incrementally process pdfs have a look at the add-on <a href="https://ankiweb.net/shared/info/1781298089" rel="nofollow">Searching, PDF reading &amp; note-taking in "Add" dialog</a>. 
 If you just want a simple pdf viewer have a look at the add-on  <a href="https://ankiweb.net/shared/info/319501851" rel="nofollow">pdf viewer</a>.
-
 For editing images and sound files from your cards have a look at <a href="https://ankiweb.net/shared/info/1560623518" rel="nofollow">OpenInExternalEditor,Rename,Duplicate for Image,Audio,Video</a>. 
 
 <b># versions</b>
+- 2020-12-13 support multiple source/page fields per note, experimental feature for links to external files from within any field.
+- 2020-11-31 add print debugging
+- 2020-11-30 fix prior release, fix ebook-viewer defaults for windows.
 - 2020-11-24 some compatbility with Apple/Mac (see section MacOS above), some code cleanup 
 - 2020-11-13 fix issue 4 and 6: also works if filed_for-fielname is not ending with the file extension (e.g. test.html#someid now works), browsers like chrome can be used as a pdf viewer
 - 2020-07-20 fix opening system apps on linux when using the binary from ankiweb. I remove some environment variables that anki set which directed to the anki binary path (e.g. LD_LIBRARY_PATH).
@@ -66,6 +84,5 @@ For editing images and sound files from your cards have a look at <a href="https
 - 2019-11-14
 - 2019-11-11
 - 2019-10-21
-- 2019-09-16 initial release
-
+- 2019-09-16 initial release</div>
 
