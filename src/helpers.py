@@ -4,7 +4,7 @@ import os
 from .config import gc
 
 
-def file_exists_check_helper(selectedtext):
+def check_string_for_existing_file(selectedtext):
     prefix = gc("inline_prefix")
     if not prefix:
         return
@@ -19,7 +19,7 @@ def file_exists_check_helper(selectedtext):
     root, ext = os.path.splitext(file)
     ext_wo_leading_dot_and_lower = ext[1:].lower()
     all_relative_paths, all_relative_files = get_all_relative()
-    outfile, _ = check_if_file_exists(file=file, 
+    outfile, _ = check_filename_page_if_exists(file=file, 
                                    root=root,
                                    ext=ext_wo_leading_dot_and_lower,
                                    rel_folders=all_relative_paths
@@ -47,7 +47,7 @@ def guess_extension(sel_file, all_relative_files):
         return out
 
 
-def check_if_file_exists(file, root, ext, rel_folders):
+def check_filename_page_if_exists(file, root, ext, rel_folders):
     if os.path.isabs(file):
         # file also might contain stuff after the extension like "#id-to-open" for html-files
         path_to_check = root + os.extsep + ext
@@ -65,11 +65,12 @@ def check_if_file_exists(file, root, ext, rel_folders):
             if not base:
                 continue
             # file also might contain stuff after the extension like "#id-to-open" for html-files
-            path_to_check = base + "/" + root + os.extsep + ext
-            if os.path.exists(path_to_check):
-                # os.path.join(base, file) - this leads to a mix of "/" and "\" on Windows which fails
-                file = base + "/" + file
-                return file, ""
+            # loop so that I can do case-insensitive matching
+            for fn in all_relative_for_this_folder(base):
+                if root + os.extsep + ext == fn or (root + os.extsep + ext).lower() == fn.lower():
+                    # os.path.join(base, file) - this leads to a mix of "/" and "\" on Windows which fails
+                    file = base + "/" + fn
+                    return file, ""
         else:
             # file dosn't exist in any of the default paths:
             failmsg = (f"file '{file}' is not in any of the the folders for relative "
@@ -102,3 +103,8 @@ def get_all_relative():
                 all_relative_files.append(os.path.join(root, name))
 
     return all_relative_paths, all_relative_files
+
+
+def all_relative_for_this_folder(fp):
+    for _, _, files in os.walk(fp):
+        return files

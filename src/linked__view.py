@@ -11,7 +11,7 @@ from aqt.utils import tooltip
 
 
 from .config import gc, pycmd_string
-from .helpers import file_exists_check_helper
+from .helpers import check_string_for_existing_file
 from .linked__link_handler import process_urlcmd
 from .open_in_external import open_external
 
@@ -32,7 +32,7 @@ def contexthelper(menu, selectedtext):
         return
     if not gc("inline_prefix") in selectedtext:
         return
-    file, page = file_exists_check_helper(selectedtext)
+    file, page = check_string_for_existing_file(selectedtext)
     # print(f"file_add_to_context: {file}, {page}")
     if file:
         a = menu.addAction("Try to open externally")

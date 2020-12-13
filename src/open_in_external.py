@@ -18,7 +18,12 @@ from aqt.utils import tooltip
 
 from .config import gc
 from .consts import sep2, sep_merge
-from .helpers import check_if_file_exists
+from .helpers import (
+    check_filename_page_if_exists,
+    get_all_relative,
+    guess_extension,
+)
+
 
 some_browsers_win = [
     "brave.exe",
@@ -95,6 +100,11 @@ def open_external(file, page):
         else:
             file = file[7:]
     root, ext = os.path.splitext(file)
+    guessed = False
+    if not ext:
+        _, all_relative_files = get_all_relative()
+        file = guess_extension(file, all_relative_files)
+        guessed = True
     ext_wo_leading_dot_and_lower = ext[1:].lower()  # remove
     this_config = gc("programs_for_extensions")
     if not this_config:
@@ -102,11 +112,14 @@ def open_external(file, page):
     for v in this_config:
         if v.get("extensions"):    # "other_extensions" doesn't have this key
             for used in v["extensions"]:
-                if ext_wo_leading_dot_and_lower.startswith(used):
-                    file, failmsg = check_if_file_exists(file=file, 
-                                                         root=root,
-                                                         ext=used,
-                                                         rel_folders=v["default_folder_for_relative_paths"])
+                if ext_wo_leading_dot_and_lower.startswith(used) or guessed:
+                    if guessed:
+                        failmsg = "Couldn't guess file. Aborting ..."
+                    else:
+                        file, failmsg = check_filename_page_if_exists(file=file, 
+                                                            root=root,
+                                                            ext=used,
+                                                            rel_folders=v["default_folder_for_relative_paths"])
                     if not file:
                         tooltip(failmsg)
                         return
