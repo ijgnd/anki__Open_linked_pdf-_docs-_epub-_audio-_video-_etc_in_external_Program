@@ -5,10 +5,6 @@ from aqt.editcurrent import EditCurrent
 from aqt.editor import Editor
 
 from .config import gc, pycmd_string
-from .helpers import (
-    file_exists_check_helper,
-)
-from .open_in_external import open_external
 
 
 # NOTE: I can have all kinds of filenames and extensions after the inline_prefix. So it doesn't
