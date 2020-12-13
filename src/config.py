@@ -12,3 +12,6 @@ def gc(arg, fail=False):
 from anki import version as anki_version
 _, _, point = anki_version.split(".")
 pointversion = int(point)
+
+
+pycmd_string = "open_external_addon"

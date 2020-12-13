@@ -309,6 +309,34 @@ class MyConfigWindow(QDialog):
         self.mcw.buttonBox.rejected.disconnect(self.reject)
         self.mcw.buttonBox.rejected.connect(self.onReject)
 
+        self.mcw.le_prefix.setVisible(False)
+        self.mcw.ql_prefix.setVisible(False)
+        self.mcw.le_sep.setVisible(False)
+        self.mcw.ql_sep.setVisible(False)
+        self.mcw.le_prefix.setText(self.gc("inline_prefix", ""))
+        self.mcw.le_sep.setText(self.gc("inline_separator", ""))
+        self.mcw.cb_extended.stateChanged.connect(self.on_extended_changed)
+        if self.gc("inline_prefix"):
+            self.mcw.cb_extended.setChecked(True)
+
+    def on_extended_changed(self):
+        tooltip("Restart Anki so that the changes take effect.")
+        # at the moment there's no customization
+        """
+        if self.mcw.cb_extended.isChecked():
+            self.mcw.le_prefix.setVisible(True)
+            self.mcw.ql_prefix.setVisible(True)
+            self.mcw.le_sep.setVisible(True)
+            self.mcw.ql_sep.setVisible(True)
+        else:
+            self.mcw.le_prefix.setVisible(False)
+            self.mcw.ql_prefix.setVisible(False)
+            self.mcw.le_sep.setVisible(False)
+            self.mcw.ql_sep.setVisible(False)
+            self.mcw.le_prefix.setText("")
+            self.mcw.le_sep.setText("")
+        """
+
     def gc(self, arg, fail=False):
         return self.config.get(arg, fail)
 
@@ -482,6 +510,22 @@ class MyConfigWindow(QDialog):
         self.config["field_for_filename"] = self.mcw.le_field_for_filename.text()
         self.config["field_for_page"] = self.mcw.le_field_for_page.text()
         self.config["programs_for_extensions"] = self.progs
+
+        # at the moment there's no customization
+        # self.config["inline_prefix"] = self.mcw.le_prefix.text()
+        # self.config["inline_separator"] = self.mcw.le_sep.text()
+        if self.mcw.cb_extended.isChecked(): 
+            self.config["inline_prefix"] = "____"
+            self.config["inline_separator"] = "___"
+            self.config["context menu entries in reviewer"] = True
+            self.config["context menu entries in editor"] = True
+            self.config["make inline prefiexed clickable"] = True
+        else:
+            self.config["inline_prefix"] = ""
+            self.config["inline_separator"] = ""
+            self.config["context menu entries in reviewer"] = False
+            self.config["context menu entries in editor"] = False
+            self.config["make inline prefiexed clickable"] = False
 
     def onReject(self):
         self.reject()

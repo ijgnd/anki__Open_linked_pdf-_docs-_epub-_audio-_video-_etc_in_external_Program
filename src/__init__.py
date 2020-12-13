@@ -30,6 +30,10 @@ from aqt.qt import *
 from . import card_layout
 from . import open_in_external
 from . import my_config_window
+
+from . import linked__view
+from . import linked__editor
+
 from .forms import addtofield
 
 
