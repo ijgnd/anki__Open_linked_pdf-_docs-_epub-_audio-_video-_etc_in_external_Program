@@ -88,7 +88,9 @@ def onExtDocsLink(self):
 
     t += f"""
 <br><br>
+{{{{#{file_fi_used}}}}}
 <a href='javascript:{functionname}();'>{linktext}</a>
+{{{{/{file_fi_used}}}}}
 <script>
     function {functionname}(){{
         let mysource = String.raw`{{{{text:{file_fi_used}}}}}`.replace(/\\\\/g, "\\\\\\\\");
