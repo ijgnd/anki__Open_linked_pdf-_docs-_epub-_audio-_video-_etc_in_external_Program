@@ -22,6 +22,9 @@ from aqt.utils import (
     tooltip
 )
 
+from .config import (
+    gc,
+)
 from .config_add_edit_entry import (
     gui_dialog,
 )
@@ -53,11 +56,11 @@ class AddonConfigWindow(QDialog):
         self.mcw.ql_prefix.setVisible(False)
         self.mcw.le_sep.setVisible(False)
         self.mcw.ql_sep.setVisible(False)
-        self.mcw.le_prefix.setText(self.gc("inline_prefix", ""))
-        self.mcw.le_sep.setText(self.gc("inline_separator", ""))
+        self.mcw.le_prefix.setText(gc("inline_prefix", ""))
+        self.mcw.le_sep.setText(gc("inline_separator", ""))
         self.mcw.cb_extended.setText("enable experimental feature (check the ankiweb description for details)")
         self.mcw.cb_extended.stateChanged.connect(self.on_extended_changed)
-        if self.gc("inline_prefix"):
+        if gc("inline_prefix"):
             self.mcw.cb_extended.setChecked(True)
 
     def on_extended_changed(self):
@@ -78,11 +81,8 @@ class AddonConfigWindow(QDialog):
             self.mcw.le_sep.setText("")
         """
 
-    def gc(self, arg, fail=False):
-        return self.config.get(arg, fail)
-
     def set_attribute_progs(self):
-        progs = self.gc("programs_for_extensions", "")
+        progs = gc("programs_for_extensions", "")
         msg = ('error in config of the add-on: Open linked pdf.\n'
                'Not reading the config of the add-on')
         if not progs:
@@ -110,8 +110,8 @@ class AddonConfigWindow(QDialog):
         self.mcw.tw.itemDoubleClicked.connect(self.ondoubleclick)
 
     def set_contents(self):
-        self.mcw.le_field_for_filename.setText(self.gc("field_for_filename", ""))
-        self.mcw.le_field_for_page.setText(self.gc("field_for_page", ""))
+        self.mcw.le_field_for_filename.setText(gc("field_for_filename", ""))
+        self.mcw.le_field_for_page.setText(gc("field_for_page", ""))
         widget = self.mcw.tw
         widget.setSelectionBehavior(QTableView.SelectRows)
         widget.setEditTriggers(QAbstractItemView.NoEditTriggers)
