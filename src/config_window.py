@@ -4,7 +4,16 @@ from collections import OrderedDict
 from pprint import pprint as pp
 
 from aqt import mw
-from aqt.qt import *
+from aqt.qt import (
+    QAbstractItemView,
+    QAbstractScrollArea,
+    QCursor,
+    QDialog,
+    QHeaderView,
+    QMenu,
+    QTableView,
+    QTableWidgetItem,
+)
 from aqt.utils import (
     askUser,
     getFile,
