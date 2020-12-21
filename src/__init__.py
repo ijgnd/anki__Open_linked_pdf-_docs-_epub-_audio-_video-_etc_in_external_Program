@@ -91,7 +91,7 @@ from .forms import addtofield
 
 
 def onMySettings():
-    dialog = config_window.MyConfigWindow(mw.addonManager.getConfig(__name__))
+    dialog = config_window.AddonConfigWindow(mw.addonManager.getConfig(__name__))
     if dialog.exec_():
         mw.addonManager.writeConfig(__name__, dialog.config)
 mw.addonManager.setConfigAction(__name__, onMySettings)

@@ -288,7 +288,7 @@ def gui_dialog(inst, thisconf=None):
     return AddEditEntryRest(inst, thisconf)
 
 
-class MyConfigWindow(QDialog):
+class AddonConfigWindow(QDialog):
     def __init__(self, c):
         parent = mw.app.activeWindow()
         QDialog.__init__(self, parent)
