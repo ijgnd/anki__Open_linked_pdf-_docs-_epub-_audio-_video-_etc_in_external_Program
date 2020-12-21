@@ -81,7 +81,7 @@ from aqt.qt import *
 
 from . import card_layout
 from . import open_in_external
-from . import my_config_window
+from . import config_window
 
 from . import insert_reference
 from . import linked__view
@@ -91,7 +91,7 @@ from .forms import addtofield
 
 
 def onMySettings():
-    dialog = my_config_window.MyConfigWindow(mw.addonManager.getConfig(__name__))
+    dialog = config_window.MyConfigWindow(mw.addonManager.getConfig(__name__))
     if dialog.exec_():
         mw.addonManager.writeConfig(__name__, dialog.config)
 mw.addonManager.setConfigAction(__name__, onMySettings)
