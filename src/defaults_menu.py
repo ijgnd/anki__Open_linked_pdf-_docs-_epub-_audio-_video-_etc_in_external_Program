@@ -14,7 +14,7 @@ from aqt.utils import (
     tooltip
 )
 
-from .defaults import (
+from .default_settings_for_progs.py import (
     tpl_pdf,
     tpl_office,
     tpl_vlc,
