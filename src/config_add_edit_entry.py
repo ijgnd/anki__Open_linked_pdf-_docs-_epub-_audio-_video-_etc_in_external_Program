@@ -19,7 +19,7 @@ from aqt.utils import (
     tooltip,
 )
 
-from .defaults_menu import (
+from .config_defaults_menu import (
     SelectDefault,
     guess_cmd_params,
 )
