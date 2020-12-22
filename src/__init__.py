@@ -82,7 +82,7 @@ from aqt.qt import *
 from . import card_layout
 from . import open_in_external
 from . import config_window
-
+from . import editor
 from . import editor_insert_reference
 from . import linked__view
 from . import linked__editor
