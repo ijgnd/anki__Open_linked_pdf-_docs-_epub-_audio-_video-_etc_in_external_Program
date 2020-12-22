@@ -122,7 +122,7 @@ def all_relative_for_this_folder(fp):
         return files
 
 
-def already_used_exts_for_others(progs, originally_for_this):
+def already_used_exts_for_others(progs, originally_for_this=[]):
     allexts = []
     if not progs:
         return []
