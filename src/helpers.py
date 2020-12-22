@@ -8,13 +8,15 @@ def check_string_for_existing_file(selectedtext):
     prefix = gc("inline_prefix")
     if not prefix:
         return None, None
-    sel = selectedtext.strip().lstrip(prefix)
-
+    selectedtext = selectedtext.strip()
+    if not selectedtext.startswith(prefix):
+        return None, None
+    sel_wo = selectedtext.replace(prefix, "")
     sep = gc("inline_separator")
-    if sep and sep in sel:
-        file, page = sel.split(sep) 
+    if sep and sep in sel_wo:
+        file, page = sel_wo.split(sep) 
     else:
-        file = sel
+        file = sel_wo
         page = ""
     root, ext = os.path.splitext(file)
     ext_wo_leading_dot_and_lower = ext[1:].lower()
