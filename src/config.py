@@ -7,7 +7,7 @@ def gc(arg, fail=False):
     try:
         out = mw.addonManager.getConfig(__name__).get(arg, fail)
     except:
-        return False
+        return fail
     else:
         return out
 
