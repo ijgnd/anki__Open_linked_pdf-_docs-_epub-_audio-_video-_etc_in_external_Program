@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>599</width>
-    <height>589</height>
+    <width>850</width>
+    <height>466</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,7 +45,7 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>field_for_filename: </string>
+          <string>default field for filename: </string>
          </property>
         </widget>
        </item>
@@ -55,7 +55,7 @@
        <item>
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>field_for_page: </string>
+          <string>default field for page: </string>
          </property>
         </widget>
        </item>
