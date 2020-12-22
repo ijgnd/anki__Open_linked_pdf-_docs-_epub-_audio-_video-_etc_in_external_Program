@@ -86,6 +86,7 @@ from . import config_window
 from . import editor_insert_reference
 from . import linked__view
 from . import linked__editor
+from . import reviewer
 
 from .forms import addtofield
 

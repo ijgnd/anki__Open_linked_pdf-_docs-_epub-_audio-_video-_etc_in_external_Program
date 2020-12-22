@@ -4,7 +4,7 @@ import subprocess
 import shlex
 
 
-from anki.hooks import addHook, wrap
+from anki.hooks import addHook
 from anki.utils import (
     isLin,
     isMac,
@@ -12,12 +12,10 @@ from anki.utils import (
     stripHTML
 )
 from aqt import mw
-from aqt.reviewer import Reviewer
 from aqt.browser import Browser
 from aqt.utils import tooltip
 
 from .config import gc
-from .consts import sep2, sep_merge
 from .helpers import (
     check_filename_page_if_exists,
     get_all_relative,
@@ -168,13 +166,7 @@ def open_external(file, page):
                 tooltip("error. E.g. no program set for this extension.")
 
 
-def myLinkHandler(self, url, _old):
-    if url.startswith(sep_merge):
-        file, page = url.replace(sep_merge, "").split(sep2)
-        open_external(file, page)
-    else:
-        return _old(self, url)
-Reviewer._linkHandler = wrap(Reviewer._linkHandler, myLinkHandler, "around")
+
 
 
 def myhelper(editor, menu):
