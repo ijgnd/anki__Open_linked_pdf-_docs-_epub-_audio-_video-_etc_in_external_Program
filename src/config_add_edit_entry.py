@@ -27,7 +27,7 @@ from .helpers import (
     already_used_exts_for_others,
 )
 
-from .forms import thisconfdialog
+from .forms import config_dialog__add_edit_single_entry
 
 
 class AddEditEntry(QDialog):
@@ -40,7 +40,7 @@ class AddEditEntry(QDialog):
         self.exts_used_when_opened = self.thisconf.get("extensions", [])
         self.parent = parent
         QDialog.__init__(self, parent, Qt.Window)
-        self.dialog = thisconfdialog.Ui_Dialog()
+        self.dialog = config_dialog__add_edit_single_entry.Ui_Dialog()
         self.dialog.setupUi(self)
         self.adjustSize()
         self.fill_fields()
