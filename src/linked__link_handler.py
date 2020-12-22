@@ -9,7 +9,7 @@ from .open_in_external import open_external
 
 def process_urlcmd(url):
     if url.startswith(pycmd_string):
-        file, page = check_string_for_existing_file(url.lstrip(pycmd_string))
+        file, page = check_string_for_existing_file(url.replace(pycmd_string, ""))
         # print(f"file_add_to_context: {file}, {page}")
         if file:
             open_external(file, page)
