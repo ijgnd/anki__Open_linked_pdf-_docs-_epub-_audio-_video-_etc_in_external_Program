@@ -6,7 +6,12 @@ from anki.utils import (
     isWin
 )
 
-from aqt.qt import *
+from aqt.qt import (
+    QDialog,
+    QFileDialog,
+    Qt,
+
+)
 from aqt.utils import (
     askUser,
     getFile,
@@ -18,17 +23,22 @@ from .defaults_menu import (
     SelectDefault,
     guess_cmd_params,
 )
+from .helpers import (
+    already_used_exts_for_others,
+)
+
 from .forms import thisconfdialog
 
 
 class AddEditEntry(QDialog):
-    def __init__(self, parent, thisconf):
+    def __init__(self, parent, thisconf, progs):
         if thisconf:
             self.thisconf = thisconf
         else:
             self.thisconf = {}
+        self.progs = progs
+        self.exts_used_when_opened = self.thisconf.get("extensions", [])
         self.parent = parent
-        self.set_exts_used_for_other_progs()
         QDialog.__init__(self, parent, Qt.Window)
         self.dialog = thisconfdialog.Ui_Dialog()
         self.dialog.setupUi(self)
@@ -56,14 +66,6 @@ class AddEditEntry(QDialog):
                   "when clicking the hyperlink during review or running this add-on from the "
                   "editor context menu.")
         showInfo(infmsg)
-    
-    def set_exts_used_for_other_progs(self):
-        a = set(self.parent.config["extensions_all"])
-        if "extensions" in self.thisconf:
-            b = set(self.thisconf["extensions"])
-            self.exts_used_for_other_progs = list(a-b)
-        else:
-            self.exts_used_for_other_progs = list(a)
 
     def fill_fields(self):
         if not self.thisconf:
@@ -209,9 +211,8 @@ class AddEditEntry(QDialog):
             ext_fixed = self.thisconf["extensions_fixed"]
         else:
             ext_fixed = False
-        exts = self.dialog.le_extensions.text().split()
-        for e in exts:
-            if e in self.exts_used_for_other_progs:
+        for e in self.dialog.le_extensions.text().split():
+            if e in already_used_exts_for_others(self.progs, self.exts_used_when_opened):
                 usedmsg = ("You listed an extension here that's already assigned to a different"
                            "command/program. Please remove '%s' from the 'Extensions'.\n\n"
                            "Returning back to the config window.\n\n"
@@ -270,16 +271,16 @@ class AddEditEntryPdf(AddEditEntry):
 
 
 class AddEditEntryRest(AddEditEntry):
-    def __init__(self, parent=None, thisconf=None):
-        AddEditEntry.__init__(self, parent, thisconf)
+    def __init__(self, parent=None, thisconf=None, progs=None):
+        AddEditEntry.__init__(self, parent, thisconf, progs)
         self.dialog.wi_pdf.setVisible(False)  # hide until implemented
 
 
-def gui_dialog(inst, thisconf=None):
+def gui_dialog(inst, thisconf=None, progs=None):
     # commented out since I made the internal pdf viewer into a separate extension.
     # if thisconf:
     #     if "extensions" in thisconf:
     #         p = thisconf["extensions"]
     #         if len(p) == 1 and p[0] == "pdf":
     #             return AddEditEntryPdf(inst, thisconf)
-    return AddEditEntryRest(inst, thisconf)
+    return AddEditEntryRest(inst, thisconf, progs)

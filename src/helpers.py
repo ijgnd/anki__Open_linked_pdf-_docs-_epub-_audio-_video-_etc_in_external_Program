@@ -120,3 +120,16 @@ def get_all_relative(relative_only=False):
 def all_relative_for_this_folder(fp):
     for _, _, files in os.walk(fp):
         return files
+
+
+def already_used_exts_for_others(progs, originally_for_this):
+    allexts = []
+    if not progs:
+        return []
+    for e in progs:
+        for v in e["extensions"]:
+            if e not in allexts:
+                allexts.append(v)
+    a = set(allexts)
+    b = set(originally_for_this)
+    return list(a-b)

@@ -1,7 +1,6 @@
 {
     "context menu entries in reviewer": false,
     "context menu entries in editor": false,
-    "extensions_all": [],
     "field_for_filename": "external_source",
     "field_for_page": "external_page",
     "inline_separator": "",

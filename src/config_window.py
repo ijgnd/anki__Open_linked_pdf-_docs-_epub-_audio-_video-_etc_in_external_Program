@@ -144,7 +144,7 @@ class AddonConfigWindow(QDialog):
 
     def modify_helper(self, row):
         thisconf = self.progs[row]
-        e = gui_dialog(self, thisconf=thisconf)
+        e = gui_dialog(self, thisconf=thisconf, progs=self.progs)
         if e.exec():
             self.progs[row] = e.newsetting
             self.progs = sorted(self.progs, key=lambda k: k['comment'])
@@ -164,14 +164,6 @@ class AddonConfigWindow(QDialog):
         else:
             tooltip("No row selected.")
 
-    def update_all_exts(self):
-        allexts = []
-        for e in self.progs:
-            for v in e["extensions"]:
-                if e not in allexts:
-                    allexts.append(v)
-        self.config["extensions_all"] = allexts
-
     def onAdd(self):
         e = gui_dialog(self, thisconf=None)
         if e.exec_():
@@ -179,7 +171,6 @@ class AddonConfigWindow(QDialog):
             self.progs = sorted(self.progs, key=lambda k: k['comment'])
             self.set_contents()
             self.adjustSize()
-            self.update_all_exts()
 
     def onDelete(self):
         try:
