@@ -1,6 +1,7 @@
 from anki.hooks import wrap
 
 from aqt.reviewer import Reviewer
+
 from .consts import sep2, sep_merge
 from .open_in_external import open_external
 
