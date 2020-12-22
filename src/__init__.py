@@ -83,7 +83,7 @@ from . import card_layout
 from . import open_in_external
 from . import config_window
 
-from . import insert_reference
+from . import editor_insert_reference
 from . import linked__view
 from . import linked__editor
 
