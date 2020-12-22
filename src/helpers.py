@@ -7,7 +7,7 @@ from .config import gc
 def check_string_for_existing_file(selectedtext):
     prefix = gc("inline_prefix")
     if not prefix:
-        return
+        return None, None
     sel = selectedtext.strip().lstrip(prefix)
 
     sep = gc("inline_separator")
