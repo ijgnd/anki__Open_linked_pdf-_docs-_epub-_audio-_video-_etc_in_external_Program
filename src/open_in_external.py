@@ -159,5 +159,4 @@ def open_external(file, page):
                     print(f"_____________________________")    
                     subprocess.Popen(args, env=env)
                     return
-            else:
-                tooltip("error. E.g. no program set for this extension.")
+    tooltip("error. E.g. no program set for this extension.")
